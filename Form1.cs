@@ -258,7 +258,6 @@
         private void CalculateCostButton_Click(object sender, EventArgs e)
         {
             // Логика для расчета стоимости
-            // Можно добавить свой код для обработки расчета
             resultLabel.Text = "Стоимость рассчитана."; // Пример сообщения
         }
     }
