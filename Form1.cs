@@ -9,6 +9,7 @@
         private TextBox productNameTextBox;
         private Label productDescriptionLabel;
         private TextBox productDescriptionTextBox;
+        private Button saveProductButton;
 
         // Элементы для таблицы Materials
         private Label materialNameLabel;
@@ -17,12 +18,14 @@
         private TextBox materialUnitTextBox;
         private Label materialCostLabel;
         private TextBox materialCostTextBox;
+        private Button saveMaterialButton;
 
         // Элементы для таблицы Operations
         private Label operationNameLabel;
         private TextBox operationNameTextBox;
         private Label operationCostLabel;
         private TextBox operationCostTextBox;
+        private Button saveOperationButton;
 
         // Элементы для таблицы Employees
         private Label employeeNameLabel;
@@ -31,6 +34,7 @@
         private TextBox employeePositionTextBox;
         private Label employeeSalaryLabel;
         private TextBox employeeSalaryTextBox;
+        private Button saveEmployeeButton;
 
         // Элементы для таблицы Expenses
         private Label expenseCategoryLabel;
@@ -39,9 +43,12 @@
         private TextBox expenseAmountTextBox;
         private Label expenseDateLabel;
         private DateTimePicker expenseDatePicker;
+        private Button saveExpenseButton;
 
-        // Кнопка для сохранения данных
-        private Button saveButton;
+        // Новая кнопка для расчета стоимости
+        private Button calculateCostButton;
+
+        // Метка для вывода результата
         private Label resultLabel;
         private DatabaseHelper dbHelper;
 
@@ -50,12 +57,7 @@
             InitializeComponent();
             InitializeCustomComponents();
             this.WindowState = FormWindowState.Maximized; // Устанавливаем форму в максимизированное состояние
-            dbHelper = new DatabaseHelper("Server=localhost;Database=calcSystem;Trusted_Connection=True;");
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            // Здесь можно добавить логику, которая должна выполняться при загрузке формы
+            dbHelper = new DatabaseHelper("Server=localhost\\SQLEXPRESS;Database=calcSystem;Trusted_Connection=True;");
         }
 
         private void InitializeCustomComponents()
@@ -81,6 +83,16 @@
             productDescriptionLabel = new Label { Text = "Описание продукта:", Location = new System.Drawing.Point(30, 110), AutoSize = true };
             productDescriptionTextBox = new TextBox { Location = new System.Drawing.Point(200, 105), Width = 250, Multiline = true, Height = 60 };
 
+            // Кнопка для сохранения продукта
+            saveProductButton = new Button
+            {
+                Text = "Записать данные",
+                Location = new System.Drawing.Point(460, 65),
+                Width = 150, // Увеличенная ширина кнопки
+                BackColor = System.Drawing.Color.LightGreen
+            };
+            saveProductButton.Click += new EventHandler(SaveProductButton_Click);
+
             // Элементы для Materials
             materialNameLabel = new Label { Text = "Название материала:", Location = new System.Drawing.Point(30, 180), AutoSize = true };
             materialNameTextBox = new TextBox { Location = new System.Drawing.Point(200, 175), Width = 250 };
@@ -91,12 +103,32 @@
             materialCostLabel = new Label { Text = "Стоимость за единицу:", Location = new System.Drawing.Point(30, 260), AutoSize = true };
             materialCostTextBox = new TextBox { Location = new System.Drawing.Point(200, 255), Width = 250 };
 
+            // Кнопка для сохранения материала
+            saveMaterialButton = new Button
+            {
+                Text = "Записать данные",
+                Location = new System.Drawing.Point(460, 215),
+                Width = 150, // Увеличенная ширина кнопки
+                BackColor = System.Drawing.Color.LightGreen
+            };
+            saveMaterialButton.Click += new EventHandler(SaveMaterialButton_Click);
+
             // Элементы для Operations
             operationNameLabel = new Label { Text = "Название операции:", Location = new System.Drawing.Point(30, 300), AutoSize = true };
             operationNameTextBox = new TextBox { Location = new System.Drawing.Point(200, 295), Width = 250 };
 
             operationCostLabel = new Label { Text = "Стоимость операции:", Location = new System.Drawing.Point(30, 340), AutoSize = true };
             operationCostTextBox = new TextBox { Location = new System.Drawing.Point(200, 335), Width = 250 };
+
+            // Кнопка для сохранения операции
+            saveOperationButton = new Button
+            {
+                Text = "Записать данные",
+                Location = new System.Drawing.Point(460, 335),
+                Width = 150, // Увеличенная ширина кнопки
+                BackColor = System.Drawing.Color.LightGreen
+            };
+            saveOperationButton.Click += new EventHandler(SaveOperationButton_Click);
 
             // Элементы для Employees
             employeeNameLabel = new Label { Text = "ФИО сотрудника:", Location = new System.Drawing.Point(30, 380), AutoSize = true };
@@ -108,6 +140,16 @@
             employeeSalaryLabel = new Label { Text = "Зарплата:", Location = new System.Drawing.Point(30, 460), AutoSize = true };
             employeeSalaryTextBox = new TextBox { Location = new System.Drawing.Point(200, 455), Width = 250 };
 
+            // Кнопка для сохранения сотрудника
+            saveEmployeeButton = new Button
+            {
+                Text = "Записать данные",
+                Location = new System.Drawing.Point(460, 455),
+                Width = 150, // Увеличенная ширина кнопки
+                BackColor = System.Drawing.Color.LightGreen
+            };
+            saveEmployeeButton.Click += new EventHandler(SaveEmployeeButton_Click);
+
             // Элементы для Expenses
             expenseCategoryLabel = new Label { Text = "Категория расхода:", Location = new System.Drawing.Point(30, 500), AutoSize = true };
             expenseCategoryTextBox = new TextBox { Location = new System.Drawing.Point(200, 495), Width = 250 };
@@ -118,15 +160,25 @@
             expenseDateLabel = new Label { Text = "Дата расхода:", Location = new System.Drawing.Point(30, 580), AutoSize = true };
             expenseDatePicker = new DateTimePicker { Location = new System.Drawing.Point(200, 575), Width = 250 };
 
-            // Кнопка для сохранения данных
-            saveButton = new Button
+            // Кнопка для сохранения расхода
+            saveExpenseButton = new Button
             {
-                Text = "Сохранить",
-                Location = new System.Drawing.Point(200, 620),
-                Width = 100,
+                Text = "Записать данные",
+                Location = new System.Drawing.Point(460, 575),
+                Width = 150, // Увеличенная ширина кнопки
                 BackColor = System.Drawing.Color.LightGreen
             };
-            saveButton.Click += new EventHandler(SaveButton_Click);
+            saveExpenseButton.Click += new EventHandler(SaveExpenseButton_Click);
+
+            // Кнопка для расчета стоимости
+            calculateCostButton = new Button
+            {
+                Text = "Рассчитать стоимость",
+                Location = new System.Drawing.Point(30, 620), // Под всеми остальными кнопками
+                Width = 250, // Ширина кнопки
+                BackColor = System.Drawing.Color.LightBlue
+            };
+            calculateCostButton.Click += new EventHandler(CalculateCostButton_Click);
 
             // Метка для вывода результата
             resultLabel = new Label
@@ -142,39 +194,72 @@
             this.Controls.Add(productNameTextBox);
             this.Controls.Add(productDescriptionLabel);
             this.Controls.Add(productDescriptionTextBox);
+            this.Controls.Add(saveProductButton);
             this.Controls.Add(materialNameLabel);
             this.Controls.Add(materialNameTextBox);
             this.Controls.Add(materialUnitLabel);
             this.Controls.Add(materialUnitTextBox);
             this.Controls.Add(materialCostLabel);
             this.Controls.Add(materialCostTextBox);
+            this.Controls.Add(saveMaterialButton);
             this.Controls.Add(operationNameLabel);
             this.Controls.Add(operationNameTextBox);
             this.Controls.Add(operationCostLabel);
             this.Controls.Add(operationCostTextBox);
+            this.Controls.Add(saveOperationButton);
             this.Controls.Add(employeeNameLabel);
             this.Controls.Add(employeeNameTextBox);
             this.Controls.Add(employeePositionLabel);
             this.Controls.Add(employeePositionTextBox);
             this.Controls.Add(employeeSalaryLabel);
             this.Controls.Add(employeeSalaryTextBox);
+            this.Controls.Add(saveEmployeeButton);
             this.Controls.Add(expenseCategoryLabel);
             this.Controls.Add(expenseCategoryTextBox);
             this.Controls.Add(expenseAmountLabel);
             this.Controls.Add(expenseAmountTextBox);
             this.Controls.Add(expenseDateLabel);
             this.Controls.Add(expenseDatePicker);
-            this.Controls.Add(saveButton);
+            this.Controls.Add(saveExpenseButton);
+            this.Controls.Add(calculateCostButton); // Добавляем кнопку для расчета стоимости
             this.Controls.Add(resultLabel);
         }
 
-        private void SaveButton_Click(object sender, EventArgs e)
+        private void SaveProductButton_Click(object sender, EventArgs e)
         {
-            string connStr = "Server=localhost\\SQLEXPRESS;Database=calcSystem;Trusted_Connection=True;TrustServerCertificate=True;";
-            DatabaseHelper dbhelper = new DatabaseHelper(connStr);
-            // Здесь будет логика сохранения данных в базу данных
             var result = dbHelper.AddProduct(productNameTextBox.Text, productDescriptionTextBox.Text, out string message);
             resultLabel.Text = result ? message : $"Ошибка: {message}";
+        }
+
+        private void SaveMaterialButton_Click(object sender, EventArgs e)
+        {
+            var result = dbHelper.AddMaterial(materialNameTextBox.Text, materialUnitTextBox.Text, decimal.Parse(materialCostTextBox.Text), out string message);
+            resultLabel.Text = result ? message : $"Ошибка: {message}";
+        }
+
+        private void SaveOperationButton_Click(object sender, EventArgs e)
+        {
+            var result = dbHelper.AddOperation(operationNameTextBox.Text, decimal.Parse(operationCostTextBox.Text), out string message);
+            resultLabel.Text = result ? message : $"Ошибка: {message}";
+        }
+
+        private void SaveEmployeeButton_Click(object sender, EventArgs e)
+        {
+            var result = dbHelper.AddEmployee(employeeNameTextBox.Text, employeePositionTextBox.Text, decimal.Parse(employeeSalaryTextBox.Text), out string message);
+            resultLabel.Text = result ? message : $"Ошибка: {message}";
+        }
+
+        private void SaveExpenseButton_Click(object sender, EventArgs e)
+        {
+            var result = dbHelper.AddExpense(expenseCategoryTextBox.Text, decimal.Parse(expenseAmountTextBox.Text), expenseDatePicker.Value, out string message);
+            resultLabel.Text = result ? message : $"Ошибка: {message}";
+        }
+
+        private void CalculateCostButton_Click(object sender, EventArgs e)
+        {
+            // Логика для расчета стоимости
+            // Можно добавить свой код для обработки расчета
+            resultLabel.Text = "Стоимость рассчитана."; // Пример сообщения
         }
     }
 }
