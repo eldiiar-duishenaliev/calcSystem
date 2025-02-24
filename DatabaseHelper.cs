@@ -64,7 +64,7 @@ namespace calcSystem
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Materials (name, unit, cost, created_at) VALUES (@name, @unit, @cost, @createdAt)";
+                    string query = "INSERT INTO Materials (name, unit, cost_per_unit) VALUES (@name, @unit, @cost)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@name", name);
@@ -104,7 +104,7 @@ namespace calcSystem
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Operations (name, cost, created_at) VALUES (@name, @cost, @createdAt)";
+                    string query = "INSERT INTO Operations (name, cost) VALUES (@name, @cost)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@name", name);
@@ -142,7 +142,7 @@ namespace calcSystem
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Employees (name, position, salary, created_at) VALUES (@name, @position, @salary, @createdAt)";
+                    string query = "INSERT INTO Employees (full_name, position, salary) VALUES (@name, @position, @salary)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@name", name);
@@ -181,7 +181,7 @@ namespace calcSystem
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Expenses (category, amount, date, created_at) VALUES (@category, @amount, @date, @createdAt)";
+                    string query = "INSERT INTO Expenses (category, amount, expense_date) VALUES (@category, @amount, @date)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@category", category);

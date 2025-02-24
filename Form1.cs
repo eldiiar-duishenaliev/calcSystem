@@ -57,7 +57,7 @@
             InitializeComponent();
             InitializeCustomComponents();
             this.WindowState = FormWindowState.Maximized; // Устанавливаем форму в максимизированное состояние
-            dbHelper = new DatabaseHelper("Server=localhost\\SQLEXPRESS;Database=calcSystem;Trusted_Connection=True;");
+            dbHelper = new DatabaseHelper("Server=localhost\\SQLEXPRESS;Database=calcSystem;Trusted_Connection=True;");           
         }
 
         private void InitializeCustomComponents()
