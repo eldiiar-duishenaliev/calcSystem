@@ -208,5 +208,37 @@ namespace calcSystem
                 }
             }
         }
+        public decimal GetSumOfAll(out decimal sum, out string message)
+        {
+            sum = 0;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT \r\n (SELECT ISNULL(cost_per_unit, 0) FROM Materials WHERE id = (SELECT MAX(id) FROM Materials)) +\r\n (SELECT ISNULL(cost, 0) FROM Operations WHERE id = (SELECT MAX(id) FROM Operations)) +\r\n    (SELECT ISNULL(salary, 0) FROM Employees WHERE id = (SELECT MAX(id) FROM Employees)) +\r\n (SELECT ISNULL(amount, 0) FROM Expenses WHERE id = (SELECT MAX(id) FROM Expenses))\r\n AS total_sum;";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        if (result != DBNull.Value)
+                        {
+                            sum = Convert.ToDecimal(result);
+                            message = "Данные успешно получены!";
+                            return sum;
+                        }
+                        else
+                        {
+                            message = "Ошибка при получении данных.";
+                            return sum;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    message = $"Ошибка: {ex.Message}";
+                    return sum;
+                }
+            }
+        }
     }
 }

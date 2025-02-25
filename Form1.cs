@@ -52,6 +52,9 @@
         private Label resultLabel;
         private DatabaseHelper dbHelper;
 
+        // Метка полной стоимости
+        private Label totalCostLabel;
+
         public Form1()
         {
             InitializeComponent();
@@ -158,7 +161,7 @@
             expenseAmountTextBox = new TextBox { Location = new System.Drawing.Point(200, 535), Width = 250 };
 
             expenseDateLabel = new Label { Text = "Дата расхода:", Location = new System.Drawing.Point(30, 580), AutoSize = true };
-            expenseDatePicker = new DateTimePicker { Location = new System.Drawing.Point(200, 575), Width = 250 };
+            expenseDatePicker = new DateTimePicker { Location = new System.Drawing.Point(200, 575), Width = 250 };                       
 
             // Кнопка для сохранения расхода
             saveExpenseButton = new Button
@@ -187,6 +190,9 @@
                 AutoSize = true,
                 ForeColor = System.Drawing.Color.Green
             };
+
+            // Метка для вывода общей стоимости
+            totalCostLabel = new Label { Text = "Общая стоимость: ", Location = new System.Drawing.Point(30, 690), AutoSize = true };
 
             // Добавляем элементы управления на форму
             this.Controls.Add(titleLabel);
@@ -223,6 +229,7 @@
             this.Controls.Add(saveExpenseButton);
             this.Controls.Add(calculateCostButton); // Добавляем кнопку для расчета стоимости
             this.Controls.Add(resultLabel);
+            this.Controls.Add(totalCostLabel);
         }
 
         private void SaveProductButton_Click(object sender, EventArgs e)
@@ -258,7 +265,11 @@
         private void CalculateCostButton_Click(object sender, EventArgs e)
         {
             // Логика для расчета стоимости
+            totalCostLabel.Text = "Общая стоимость: "; // Очищаем метку
             resultLabel.Text = "Стоимость рассчитана."; // Пример сообщения
+            var result = dbHelper.GetSumOfAll(out decimal totalCost, out string message);
+            var totalCostInSom = result + (result * (decimal)0.10); // Добавляем 10% учёта налогов
+            totalCostLabel.Text = totalCostLabel.Text + Math.Round(totalCostInSom, 2) + " Кыргызских сом";
         }
     }
 }
