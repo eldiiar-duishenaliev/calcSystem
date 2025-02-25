@@ -105,6 +105,7 @@
 
             materialCostLabel = new Label { Text = "Стоимость за единицу:", Location = new System.Drawing.Point(30, 260), AutoSize = true };
             materialCostTextBox = new TextBox { Location = new System.Drawing.Point(200, 255), Width = 250 };
+            materialCostTextBox.Text = "0"; // Устанавливаем значение по умолчанию
 
             // Кнопка для сохранения материала
             saveMaterialButton = new Button
@@ -122,6 +123,7 @@
 
             operationCostLabel = new Label { Text = "Стоимость операции:", Location = new System.Drawing.Point(30, 340), AutoSize = true };
             operationCostTextBox = new TextBox { Location = new System.Drawing.Point(200, 335), Width = 250 };
+            operationCostTextBox.Text = "0"; // Устанавливаем значение по умолчанию
 
             // Кнопка для сохранения операции
             saveOperationButton = new Button
@@ -142,6 +144,7 @@
 
             employeeSalaryLabel = new Label { Text = "Зарплата:", Location = new System.Drawing.Point(30, 460), AutoSize = true };
             employeeSalaryTextBox = new TextBox { Location = new System.Drawing.Point(200, 455), Width = 250 };
+            employeeSalaryTextBox.Text = "0"; // Устанавливаем значение по умолчанию
 
             // Кнопка для сохранения сотрудника
             saveEmployeeButton = new Button
@@ -159,6 +162,7 @@
 
             expenseAmountLabel = new Label { Text = "Сумма:", Location = new System.Drawing.Point(30, 540), AutoSize = true };
             expenseAmountTextBox = new TextBox { Location = new System.Drawing.Point(200, 535), Width = 250 };
+            expenseAmountTextBox.Text = "0"; // Устанавливаем значение по умолчанию
 
             expenseDateLabel = new Label { Text = "Дата расхода:", Location = new System.Drawing.Point(30, 580), AutoSize = true };
             expenseDatePicker = new DateTimePicker { Location = new System.Drawing.Point(200, 575), Width = 250 };                       

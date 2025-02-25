@@ -16,7 +16,7 @@ namespace calcSystem
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                message = "Ошибка: введите название продукта!";
+                message = "введите название продукта!";
                 return false;
             }
 
@@ -47,7 +47,7 @@ namespace calcSystem
                 }
                 catch (Exception ex)
                 {
-                    message = $"Ошибка: {ex.Message}";
+                    message = ex.Message;
                     return false;
                 }
             }
@@ -56,9 +56,22 @@ namespace calcSystem
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                message = "Ошибка: введите название материала!";
+                message = "введите название материала!";
                 return false;
             }
+
+            if (string.IsNullOrEmpty(unit))
+            {
+                message = "введите единицу измерения!";
+                return false;
+            }
+
+            if (cost <= 0)
+            {
+                message = "введите стоимость материала!";
+                return false;
+            }
+
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 try
@@ -96,9 +109,16 @@ namespace calcSystem
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                message = "Ошибка: введите название операции!";
+                message = "введите название операции!";
                 return false;
             }
+
+            if (cost <= 0)
+            {
+                message = "введите стоимость операции!";
+                return false;
+            }
+
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 try
@@ -134,7 +154,17 @@ namespace calcSystem
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                message = "Ошибка: введите имя сотрудника!";
+                message = "введите имя сотрудника!";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(position))
+            {
+                message = "введите должность сотрудника!";
+                return false;
+            }
+            if (salary <= 0)
+            {
+                message = "введите зарплату сотрудника!";
                 return false;
             }
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -173,7 +203,12 @@ namespace calcSystem
         {
             if (string.IsNullOrWhiteSpace(category))
             {
-                message = "Ошибка: введите категорию расхода!";
+                message = "введите категорию расхода!";
+                return false;
+            }
+            if (amount <= 0)
+            {
+                message = "введите сумму расхода!";
                 return false;
             }
             using (SqlConnection conn = new SqlConnection(connStr))
